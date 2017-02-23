@@ -23,6 +23,12 @@ class supervisor {
     'amazon': { $supervisord_conf = "puppet:///modules/supervisor/redhat-init-mingalevme"}
   }
 
+  if ($operatingsystem == 'ubuntu') and ($lsbmajdisrelase >= '16.04') {
+    file {'/lib/systemd/system/supervisor.service':
+      source => 'puppet:///modules/supervisor/ubuntu-service'
+    }
+  }
+
   file { '/etc/init.d/supervisord':
     source  => $supervisord_conf,
     mode    => '0755',
