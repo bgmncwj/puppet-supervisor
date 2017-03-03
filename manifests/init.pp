@@ -25,7 +25,8 @@ class supervisor {
 
   if ($operatingsystem == 'ubuntu') and ($lsbmajdisrelase >= '16.04') {
     file {'/lib/systemd/system/supervisor.service':
-      source => 'puppet:///modules/supervisor/ubuntu-service'
+      source => 'puppet:///modules/supervisor/ubuntu-service',
+      notify => Exec['daemon_reload']
     }
     exec { 'daemon_reload':
       command     => '/bin/systemctl daemon-reload',
