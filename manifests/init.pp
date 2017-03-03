@@ -27,6 +27,12 @@ class supervisor {
     file {'/lib/systemd/system/supervisor.service':
       source => 'puppet:///modules/supervisor/ubuntu-service'
     }
+    exec { 'daemon_reload':
+      command     => '/bin/systemctl daemon-reload',
+      require     => File['/lib/systemd/system/supervisor.service'],
+      user        => 'root',
+      refreshonly => true,
+    }
   }
 
   file { '/etc/init.d/supervisord':
