@@ -15,15 +15,15 @@ class supervisor {
     subscribe => File['/etc/supervisord.conf'],
   }
 
-  case $operatingsystem {
+  case $::operatingsystem {
     'debian': { $supervisord_conf = "puppet:///modules/supervisor/debian-isnok-initscript" }
-    'ubuntu': { $supervisord_conf = "puppet:///modules/supervisor/ubuntu-initscript" }
+    'ubuntu', default: { $supervisord_conf = "puppet:///modules/supervisor/ubuntu-initscript" }
     'redhat',
     'centos',
     'amazon': { $supervisord_conf = "puppet:///modules/supervisor/redhat-init-mingalevme"}
   }
 
-  if ($operatingsystem == 'ubuntu') and ($lsbmajdisrelase >= '16.04') {
+  if ($::operatingsystem == 'ubuntu') and ($::lsbdistrelease >= '16.04') {
     file {'/lib/systemd/system/supervisor.service':
       source => 'puppet:///modules/supervisor/ubuntu-service',
       notify => Exec['daemon_reload']
