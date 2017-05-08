@@ -9,9 +9,6 @@ class supervisor {
     enable    => true,
     require   => [Pip::Install['supervisor'],
                   File['/etc/init.d/supervisord']],
-    stop      => '/etc/init.d/supervisord stop',
-    start     => '/etc/init.d/supervisord start',
-    restart   => '/etc/init.d/supervisord restart',
     subscribe => File['/etc/supervisord.conf'],
   }
 
